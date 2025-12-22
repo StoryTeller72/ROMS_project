@@ -1,0 +1,56 @@
+<mujoco model="6dof_robot">
+  <asset>
+    <!-- Подключаем файлы геометрии -->
+    <mesh name="base_mesh" file="parts/base.stl"/>
+    <mesh name="link1_mesh" file="parts/link1.stl"/>
+    <mesh name="link2_mesh" file="parts/link2.stl"/>
+    <mesh name="link3_mesh" file="parts/link3.stl"/>
+    <mesh name="link4_mesh" file="parts/link4.stl"/>
+    <mesh name="link5_mesh" file="parts/link5.stl"/>
+    <mesh name="link6_mesh" file="parts/link6.stl"/>
+  </asset>
+
+  <worldbody>
+    <!-- База -->
+    <body name="base" pos="0 0 0">
+      <geom type="mesh" mesh="base_mesh" name="base_geom"/>
+
+      <!-- Звено 1 -->
+      <body name="link1" pos="0 0 0.1">
+        <joint name="joint1" type="hinge" axis="0 0 1"/>
+        <geom type="mesh" mesh="link1_mesh" name="link1_geom"/>
+
+        <!-- Звено 2 -->
+        <body name="link2" pos="0 0 0.2">
+          <joint name="joint2" type="hinge" axis="0 1 0"/>
+          <geom type="mesh" mesh="link2_mesh" name="link2_geom"/>
+
+          <!-- Звено 3 -->
+          <body name="link3" pos="0 0 0.2">
+            <joint name="joint3" type="hinge" axis="0 1 0"/>
+            <geom type="mesh" mesh="link3_mesh" name="link3_geom"/>
+
+            <!-- Звено 4 -->
+            <body name="link4" pos="0 0 0.15">
+              <joint name="joint4" type="hinge" axis="1 0 0"/>
+              <geom type="mesh" mesh="link4_mesh" name="link4_geom"/>
+
+              <!-- Звено 5 -->
+              <body name="link5" pos="0 0 0.15">
+                <joint name="joint5" type="hinge" axis="0 1 0"/>
+                <geom type="mesh" mesh="link5_mesh" name="link5_geom"/>
+
+                <!-- Звено 6 -->
+                <body name="link6" pos="0 0 0.1">
+                  <joint name="joint6" type="hinge" axis="1 0 0"/>
+                  <geom type="mesh" mesh="link6_mesh" name="link6_geom"/>
+                </body>
+
+              </body>
+            </body>
+          </body>
+        </body>
+      </body>
+    </body>
+  </worldbody>
+</mujoco>
