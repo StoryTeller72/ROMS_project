@@ -1,4 +1,6 @@
 <mujoco model="6dof_robot">
+  <option timestep="0.002" gravity="0 0 -9.81"/>
+  
   <asset>
     <!-- Подключаем файлы геометрии -->
     <mesh name="base_mesh" file="parts/base.stl"/>
@@ -8,42 +10,65 @@
     <mesh name="link4_mesh" file="parts/link4.stl"/>
     <mesh name="link5_mesh" file="parts/link5.stl"/>
     <mesh name="link6_mesh" file="parts/link6.stl"/>
+    
+    <!-- Текстура для пола -->
+    <texture name="grid" type="2d" builtin="checker" width="512" height="512" rgb1="0.1 0.2 0.3" rgb2="0.2 0.3 0.4"/>
+    <material name="floor_mat" texture="grid" texrepeat="1 1" texuniform="true" reflectance="0.2"/>
   </asset>
 
+  <default>
+    <joint damping="10" armature="0.1" limited="true" stiffness="0"/>
+    <geom rgba="0.8 0.6 0.4 1"/>
+  </default>
+
   <worldbody>
-    <!-- База -->
+    <!-- Пол - плоскость размером 10x10 метров -->
+    <geom name="floor" type="plane" size="10 10 0.01" pos="0 0 0" material="floor_mat" rgba="0.5 0.5 0.5 1"/>
+    
+    <!-- Освещение -->
+    <light name="top" pos="0 0 3" dir="0 0 -1" diffuse="0.8 0.8 0.8"/>
+    <light name="spotlight" pos="0 0 2" mode="fixed" diffuse="0.6 0.6 0.6"/>
+    
+    <!-- База (закреплена) -->
     <body name="base" pos="0 0 0">
-      <geom type="mesh" mesh="base_mesh" name="base_geom" mass="0.3" inertia="0.00054202626 0.001080272 0.000547524 0 0 0"/>
+      <inertial pos="0 0 0" mass="0.3" fullinertia="0.00054202626 0.001080272 0.000547524 0 0 0"/>
+      <geom type="mesh" mesh="base_mesh" name="base_geom"/>
 
-      <!-- Звено 1 -->
+      <!-- Звено 1 - вращение вокруг Z (базовая ось) -->
       <body name="link1" pos="0 0 0.1">
-        <joint name="joint1" type="hinge" axis="0 0 1"/>
-        <geom type="mesh" mesh="link1_mesh" name="link1_geom" mass="2.896" inertia="0.009645213 0.003711406 0.009751358 -0.000092372 0 0"/>
+        <joint name="joint1" type="hinge" axis="0 0 1" range="-3.14 3.14" damping="15" stiffness="0"/>
+        <inertial pos="0 0 0" mass="2.896" fullinertia="0.009645213 0.003711406 0.009751358 -0.000092372 0 0"/>
+        <geom type="mesh" mesh="link1_mesh" name="link1_geom"/>
 
-        <!-- Звено 2 -->
+        <!-- Звено 2 - вращение вокруг Y -->
         <body name="link2" pos="0 0 0.2">
-          <joint name="joint2" type="hinge" axis="0 1 0"/>
-          <geom type="mesh" mesh="link2_mesh" name="link2_geom" mass="2.164" inertia="0.005565894 0.005094966 0.00280463 0 0 -0.000795702"/>
+          <joint name="joint2" type="hinge" axis="0 1 0" range="-2.0 2.0" damping="15" stiffness="0"/>
+          <inertial pos="0 0 0" mass="2.164" fullinertia="0.005565894 0.005094966 0.00280463 0 0 -0.000795702"/>
+          <geom type="mesh" mesh="link2_mesh" name="link2_geom"/>
 
-          <!-- Звено 3 -->
+          <!-- Звено 3 - вращение вокруг Y -->
           <body name="link3" pos="0 0 0.2">
-            <joint name="joint3" type="hinge" axis="0 1 0"/>
-            <geom type="mesh" mesh="link3_mesh" name="link3_geom" mass="3.732" inertia="0.065141014 0.004081842 0.063524588 0 0 0.005238956"/>
+            <joint name="joint3" type="hinge" axis="0 1 0" range="-2.0 2.0" damping="15" stiffness="0"/>
+            <inertial pos="0 0 0" mass="3.732" fullinertia="0.065141014 0.004081842 0.063524588 0 0 0.005238956"/>
+            <geom type="mesh" mesh="link3_mesh" name="link3_geom"/>
 
-            <!-- Звено 4 -->
+            <!-- Звено 4 - вращение вокруг X -->
             <body name="link4" pos="0 0 0.15">
-              <joint name="joint4" type="hinge" axis="1 0 0"/>
-              <geom type="mesh" mesh="link4_mesh" name="link4_geom" mass="2.821" inertia="0.028961151 0.003176619 0.027294946 0 0 -0.00345238"/>
+              <joint name="joint4" type="hinge" axis="1 0 0" range="-3.14 3.14" damping="12" stiffness="0"/>
+              <inertial pos="0 0 0" mass="2.821" fullinertia="0.028961151 0.003176619 0.027294946 0 0 -0.00345238"/>
+              <geom type="mesh" mesh="link4_mesh" name="link4_geom"/>
 
-              <!-- Звено 5 -->
+              <!-- Звено 5 - вращение вокруг Y -->
               <body name="link5" pos="0 0 0.15">
-                <joint name="joint5" type="hinge" axis="0 1 0"/>
-                <geom type="mesh" mesh="link5_mesh" name="link5_geom" mass="0.774" inertia="0.001739808 0.000327619 0.001779242 0 0 0.000009797"/>
+                <joint name="joint5" type="hinge" axis="0 1 0" range="-3.14 3.14" damping="8" stiffness="0"/>
+                <inertial pos="0 0 0" mass="0.774" fullinertia="0.001739808 0.000327619 0.001779242 0 0 0.000009797"/>
+                <geom type="mesh" mesh="link5_mesh" name="link5_geom"/>
 
-                <!-- Звено 6 -->
+                <!-- Звено 6 - вращение вокруг X -->
                 <body name="link6" pos="0 0 0.1">
-                  <joint name="joint6" type="hinge" axis="1 0 0"/>
-                  <geom type="mesh" mesh="link6_mesh" name="link6_geom" mass="0.664" inertia="0.000956207 0.000918086 0.000286206 0 0 -0.000081854"/>
+                  <joint name="joint6" type="hinge" axis="1 0 0" range="-3.14 3.14" damping="8" stiffness="0"/>
+                  <inertial pos="0 0 0" mass="0.664" fullinertia="0.000956207 0.000918086 0.000286206 0 0 -0.000081854"/>
+                  <geom type="mesh" mesh="link6_mesh" name="link6_geom"/>
                 </body>
 
               </body>
@@ -53,4 +78,8 @@
       </body>
     </body>
   </worldbody>
+
+  <keyframe>
+    <key name="home" qpos="0 0 0 0 0 0"/>
+  </keyframe>
 </mujoco>

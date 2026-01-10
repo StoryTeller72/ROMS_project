@@ -1,0 +1,34 @@
+<mujoco model="temp">
+  <option timestep="0.002" gravity="0 0 -9.81"/>
+  
+  <asset>
+    <!-- Текстура для пола -->
+    <texture name="grid" type="2d" builtin="checker" width="512" height="512" rgb1="0.1 0.2 0.3" rgb2="0.2 0.3 0.4"/>
+    <material name="floor_mat" texture="grid" texrepeat="1 1" texuniform="true" reflectance="0.2"/>
+    <!-- Подключаем файлы геометрии -->
+    <mesh name="base_mesh" file="parts/base.stl"/>
+    <mesh name="link1_mesh" file="parts/link1.stl"/>
+    <mesh name="link2_mesh" file="parts/link2.stl"/>
+    <mesh name="link3_mesh" file="parts/link3.stl"/>
+    <mesh name="link4_mesh" file="parts/link4.stl"/>
+    <mesh name="link5_mesh" file="parts/link5.stl"/>
+    <mesh name="link6_mesh" file="parts/link6.stl"/>
+  </asset>
+
+  <statistic center="0 0 0.5" extent="2"/>
+
+  <worldbody>
+    <!-- Пол - плоскость размером 10x10 метров -->
+    <geom name="floor" type="plane" size="10 10 1" pos="0 0 0" material="floor_mat" rgba="0.5 0.5 0.5 1"/>
+    
+    <!-- Освещение -->
+    <light name="top" pos="0 0 3" dir="0 0 -1" diffuse="10 10 10"/>
+    <light name="spotlight" pos="0 0 2" mode="fixed" diffuse="10 10 10"/>
+    
+    <!-- Фиксированные камеры для просмотра -->
+    <camera name="fixed_front" pos="-5 0 3" xyaxes="0 -1 0 1 0 1" fovy="50"/>
+    <camera name="fixed_side" pos="0 -5 3" xyaxes="1 0 0 1 0.7 1" fovy="50"/>
+    <camera name="fixed_top" pos="0 0 5" xyaxes="1 0 0 0 1 0" fovy="60"/>
+  </worldbody>
+
+</mujoco>
