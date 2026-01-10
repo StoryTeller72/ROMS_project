@@ -13,37 +13,37 @@
   <worldbody>
     <!-- База -->
     <body name="base" pos="0 0 0">
-      <geom type="mesh" mesh="base_mesh" name="base_geom"/>
+      <geom type="mesh" mesh="base_mesh" name="base_geom" mass="0.3" inertia="0.00054202626 0.001080272 0.000547524 0 0 0"/>
 
       <!-- Звено 1 -->
       <body name="link1" pos="0 0 0.1">
         <joint name="joint1" type="hinge" axis="0 0 1"/>
-        <geom type="mesh" mesh="link1_mesh" name="link1_geom"/>
+        <geom type="mesh" mesh="link1_mesh" name="link1_geom" mass="2.896" inertia="0.009645213 0.003711406 0.009751358 -0.000092372 0 0"/>
 
         <!-- Звено 2 -->
         <body name="link2" pos="0 0 0.2">
           <joint name="joint2" type="hinge" axis="0 1 0"/>
-          <geom type="mesh" mesh="link2_mesh" name="link2_geom"/>
+          <geom type="mesh" mesh="link2_mesh" name="link2_geom" mass="2.164" inertia="0.005565894 0.005094966 0.00280463 0 0 -0.000795702"/>
 
           <!-- Звено 3 -->
           <body name="link3" pos="0 0 0.2">
             <joint name="joint3" type="hinge" axis="0 1 0"/>
-            <geom type="mesh" mesh="link3_mesh" name="link3_geom"/>
+            <geom type="mesh" mesh="link3_mesh" name="link3_geom" mass="3.732" inertia="0.065141014 0.004081842 0.063524588 0 0 0.005238956"/>
 
             <!-- Звено 4 -->
             <body name="link4" pos="0 0 0.15">
               <joint name="joint4" type="hinge" axis="1 0 0"/>
-              <geom type="mesh" mesh="link4_mesh" name="link4_geom"/>
+              <geom type="mesh" mesh="link4_mesh" name="link4_geom" mass="2.821" inertia="0.028961151 0.003176619 0.027294946 0 0 -0.00345238"/>
 
               <!-- Звено 5 -->
               <body name="link5" pos="0 0 0.15">
                 <joint name="joint5" type="hinge" axis="0 1 0"/>
-                <geom type="mesh" mesh="link5_mesh" name="link5_geom"/>
+                <geom type="mesh" mesh="link5_mesh" name="link5_geom" mass="0.774" inertia="0.001739808 0.000327619 0.001779242 0 0 0.000009797"/>
 
                 <!-- Звено 6 -->
                 <body name="link6" pos="0 0 0.1">
                   <joint name="joint6" type="hinge" axis="1 0 0"/>
-                  <geom type="mesh" mesh="link6_mesh" name="link6_geom"/>
+                  <geom type="mesh" mesh="link6_mesh" name="link6_geom" mass="0.664" inertia="0.000956207 0.000918086 0.000286206 0 0 -0.000081854"/>
                 </body>
 
               </body>
