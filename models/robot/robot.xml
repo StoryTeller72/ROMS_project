@@ -32,44 +32,106 @@
 
      <!-- Пол - плоскость размером 10x10 метров -->
     <geom name="floor" type="plane" size="1 1 0.05" pos="0 0 0" material="floor_mat" rgba="0.5 0.5 0.5 1"/>
+   
     <!-- База (закреплена) -->
     <body name="base">
-      <inertial pos="0.00023 -0.00969 0.0" mass="0.3" diaginertia="0.00054202626 0.001080272 0.000547524"/>
+      <inertial pos="0.000226 0.0 0.006311619" mass="0.3" diaginertia="0 0 0"/>
       <geom type="mesh" mesh="base_mesh" name="base_geom"/>
+
+       <site
+            name="com_base"
+            pos="0.000226 0.0 0.006311619"
+            size="0.01"
+            rgba="1 0 0 1"/>
+
          <!-- Звено 1 -->
         <body name="link1" pos="0 0 0.016">
-          <inertial pos="0.00056 0.07344 0.0" mass="2.896" diaginertia="0.009645213 0.003711406 0.009751358"/>
+          <inertial pos="0.00056  0 0.07344" mass="2.896" diaginertia="0.009645213 0.003711406 0.009751358"/>
           <geom type="mesh" mesh="link1_mesh" name="link1_geom"/>
+
+          <site
+            name="com_link1"
+            pos="0.00056 0.0 0.07344"
+            size="0.05"
+            rgba="1 0 0 1"/>
+
             <!-- Звено 2 -->
           <body name="link2" pos="0 0 0.232">
-            <inertial pos="0.0 0.22348 -0.04822" mass="2.164" diaginertia="0.005565894 0.005094966 0.00280463"/>
+            <inertial pos="0.0 0.05005 -0.0055" mass="2.164" diaginertia="0.005565894 0.005094966 0.00280463"/>
             <joint name='joint1' range='-360 360'/>
             <geom type="mesh" mesh="link2_mesh" name="link2_geom"/>
+
+            <site
+                name="com_link2"
+                pos="0.0 0.05005 -0.0055"
+                size="0.05"
+                rgba="1 0 0 1"/>
+
+
               <!-- Звено 3 -->
             <body name="link3" pos="0 0.1205 0">
-              <inertial pos="0.0 0.44377 -0.12667" mass="3.732" diaginertia="0.065141014 0.004081842 0.063524588"/>
+              <inertial pos="0 -0.008 0.2127" mass="3.732" diaginertia="0.065141014 0.004081842 0.063524588"/>
               <joint name="joint2" axis='0 1 0' range='-360 360'/>
               <geom type="mesh" mesh="link3_mesh" name="link3_geom"/>
+
+
+               <site
+                name="com_link3"
+                pos="0 -0.008 0.2127"
+                size="0.05"
+                rgba="1 0 0 1"/>
                 <!-- Звено 4 -->
               <body name="link4" pos='0 -0.0975 0.375'>
-                <inertial pos="0.0 0.79346 -0.03817" mass="2.821" diaginertia="0.028961151 0.003176619 0.027294946"/>
+                <inertial pos="0 0.01117 0.18745" mass="2.821" diaginertia="0.028961151 0.003176619 0.027294946"/>
                 <joint name="joint3" type="hinge" range='-160 160' axis='0 1 0'/>
                 <geom type="mesh" mesh="link4_mesh" name="link4_geom"/>
+
+
+                <site
+                    name="com_link4"
+                    pos="0 0.01117 0.18745"
+                    size="0.05"
+                    rgba="1 0 0 1"/>
                   <!-- Звено 5 -->
                 <body name="link5" pos="0 0.0975 0.295">
-                  <inertial pos="0.0 0.96998 -0.13529" mass="0.774" diaginertia="0.001739808 0.000327619 0.001779242"/>
+                  <inertial pos="0.0 0.00029 0.06847" mass="0.774" diaginertia="0.001739808 0.000327619 0.001779242"/>
                   <joint name="joint4" axis='0 1 0' range='-360 360'/>
                   <geom type="mesh" mesh="link5_mesh" name="link5_geom"/>
+
+
+
+                   <site
+                    name="com_link5"
+                    pos="0.0 0.00029 0.06847"
+                    size="0.03"
+                    rgba="1 0 0 1"/>
+
                   <!-- Звено 6 -->
                   <body name="link6" pos='0 0 0.171'>
-                    <inertial pos="0.0 1.079 -0.16713" mass="0.664" diaginertia="0.000956207 0.000918086 0.000286206"/>
+                    <inertial pos="0 0.03163 -0.00454" mass="0.664" diaginertia="0.000956207 0.000918086 0.000286206"/>
                     <joint name="joint5" range='-360 360'/>
                     <geom type="mesh" mesh="link6_mesh" name="link6_geom"/>
+
+
+                    <site
+                    name="com_link6"
+                   pos="0 0.03163 -0.00454"
+                    size="0.05"
+                    rgba="1 0 0 1"/>
                       <!-- ендэффектор -->
                     <body name="end-effector" pos='0 0.1225 0'>
-                      <inertial pos="0.0 1.084 -0.248" mass="0.176" diaginertia="0.000081706 0.000079109 0.000099736"/>
+                      <inertial pos="0 -0.004132 0.0011" mass="0.176" diaginertia="0.000081706 0.000079109 0.000099736"/>
                       <joint name='joint6' axis='0 1 0' range='-360 360'/>
                       <geom type="mesh" mesh="endEffector_mesh" name="endeffector"/>
+
+
+
+                       <site
+                        name="com_end"
+                        pos="0 -0.004132 0.0011"
+                        size="0.03"
+                        rgba="1 0 0 1"/>
+
                     </body>
 
                   </body>
@@ -80,4 +142,14 @@
         </body>
     </body>
   </worldbody>
+
+  <actuator>
+    <position name='acc1' joint="joint1" kp="100" ctrlrange="-3.14 3.14"/>
+    <position name='acc2' joint="joint2" kp='100' ctrlrange="-3.14 3.14"/>
+    <position name='acc3' joint="joint3" kp='100' ctrlrange='-2.79 2.79'/>
+    <position name='acc4' joint="joint4" kp='100' ctrlrange="-3.14 3.14"/>
+    <position name='acc5' joint="joint5" kp='100' ctrlrange="-3.14 3.14"/>
+    <position name='acc6' joint="joint6" kp='1' ctrlrange="-3.14 3.14"/>
+  </actuator>
+
 </mujoco>
