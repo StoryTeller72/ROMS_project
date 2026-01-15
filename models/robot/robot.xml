@@ -35,37 +35,19 @@
    
     <!-- База (закреплена) -->
     <body name="base">
-      <inertial pos="0.000226 0.0 0.006311619" mass="0.3" diaginertia="0 0 0"/>
       <geom type="mesh" mesh="base_mesh" name="base_geom"/>
 
-       <site
-            name="com_base"
-            pos="0.000226 0.0 0.006311619"
-            size="0.01"
-            rgba="1 0 0 1"/>
 
          <!-- Звено 1 -->
         <body name="link1" pos="0 0 0.016">
           <inertial pos="0.00056  0 0.07344" mass="2.896" diaginertia="0.0096036 0.0097093 0.003711 "/>
           <geom type="mesh" mesh="link1_mesh" name="link1_geom"/>
 
-          <site
-            name="com_link1"
-            pos="0.00056 0.0 0.07344"
-            size="0.05"
-            rgba="1 0 0 1"/>
-
             <!-- Звено 2 -->
           <body name="link2" pos="0 0 0.232">
             <inertial pos="0.0 0.05005 -0.0055" mass="2.164" diaginertia="0.0051147 0.0025546 0.0048539"/>
             <joint name='joint1' range='-360 360'/>
             <geom type="mesh" mesh="link2_mesh" name="link2_geom"/>
-
-            <site
-                name="com_link2"
-                pos="0.0 0.05005 -0.0055"
-                size="0.05"
-                rgba="1 0 0 1"/>
 
 
               <!-- Звено 3 -->
@@ -75,11 +57,6 @@
               <geom type="mesh" mesh="link3_mesh" name="link3_geom"/>
 
 
-               <site
-                name="com_link3"
-                pos="0 -0.008 0.2127"
-                size="0.05"
-                rgba="1 0 0 1"/>
                 <!-- Звено 4 -->
               <body name="link4" pos='0 -0.0975 0.375'>
                 <inertial pos="0 0.01117 0.18745" mass="2.821" diaginertia="0.0289611 0.0272949 0.0031766"/>
@@ -87,11 +64,6 @@
                 <geom type="mesh" mesh="link4_mesh" name="link4_geom"/>
 
 
-                <site
-                    name="com_link4"
-                    pos="0 0.01117 0.18745"
-                    size="0.05"
-                    rgba="1 0 0 1"/>
                   <!-- Звено 5 -->
                 <body name="link5" pos="0 0.0975 0.295">
                   <inertial pos="0.0 0.00029 0.06847" mass="0.774" diaginertia="0.0017398  0.0017792 0.0003276"/>
@@ -100,11 +72,6 @@
 
 
 
-                   <site
-                    name="com_link5"
-                    pos="0.0 0.00029 0.06847"
-                    size="0.03"
-                    rgba="1 0 0 1"/>
 
                   <!-- Звено 6 -->
                   <body name="link6" pos='0 0 0.171'>
@@ -113,24 +80,11 @@
                     <geom type="mesh" mesh="link6_mesh" name="link6_geom"/>
 
 
-                    <site
-                    name="com_link6"
-                   pos="0 0.03163 -0.00454"
-                    size="0.05"
-                    rgba="1 0 0 1"/>
                       <!-- ендэффектор -->
                     <body name="end-effector" pos='0 0.1225 0'>
                       <inertial pos="0 -0.004132 0.0011" mass="0.176" diaginertia="0.0000699 0.0000853 0.0000677"/>
                       <joint name='joint6' axis='0 1 0' range='-360 360'/>
                       <geom type="mesh" mesh="endEffector_mesh" name="endeffector"/>
-
-
-
-                       <site
-                        name="com_end"
-                        pos="0 -0.004132 0.0011"
-                        size="0.03"
-                        rgba="1 0 0 1"/>
 
                     </body>
 
