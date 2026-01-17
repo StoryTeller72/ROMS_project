@@ -4,7 +4,7 @@ import numpy as np
 from scipy.interpolate import CubicSpline
 from pathlib import Path
 
-def visualize_trajectory(positions):
+def execute_trajectory(positions, q, dq):
     """
     Визуализирует траекторию эндэффектора в MuJoCo Viewer.
     
@@ -41,11 +41,18 @@ def visualize_trajectory(positions):
             rgba
         )
         viewer.user_scn.ngeom += 1
+    
+
 
     # Оставляем Viewer открытым
     while True:
-        viewer.sync()
+        for i in range(len(q)):
+            data.qpos[:] = q[i]
+            mj.mj_forward(model, data)
+            viewer.sync()
 
 if __name__ == '__main__':
-    positions = np.load('/home/rustam/ROMS/data/link4/link4.npy',)
-    visualize_trajectory(positions)
+    positions = np.load('/home/rustam/ROMS/data/complicated_trajectory/circle_endeffector.npy')
+    control_q = np.load('/home/rustam/ROMS/data/complicated_trajectory/circle_q.npy')
+    condtrol_dq = np.load('/home/rustam/ROMS/data/complicated_trajectory/circle_dq.npy')
+    execute_trajectory(positions, control_q, condtrol_dq)

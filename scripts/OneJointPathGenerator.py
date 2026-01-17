@@ -24,7 +24,6 @@ def get_trajectory(joint_number):
 
     # -------------------------------
     # Опорная траектория: 0 -> π -> π (удержание) -> -π
-    joint_to_move = 0
 
     # Временные точки и значения
     # 0s -> 0
@@ -116,6 +115,7 @@ def get_trajectory(joint_number):
     # Сохраняем координаты эндэффектора
     np.save(save_path, ee_positions)
     print(f"Координаты эндэффектора сохранены в {save_path}")
+    print(ee_positions[0])
 
 if __name__ == '__main__':
-    get_trajectory(5)
+    get_trajectory(1)
