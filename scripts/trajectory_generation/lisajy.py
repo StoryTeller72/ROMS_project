@@ -12,7 +12,7 @@ def get_lissajous_3d_trajectory(trajectory_name):
     PROJECT_ROOT = SCRIPT_DIR.parent.parent
     MODEL_PATH = PROJECT_ROOT / "models" / "robot" / "robot.xml"
     SAVE_PATH = PROJECT_ROOT / "data"
-    save_path = str(SAVE_PATH) + f'/lissajous_3d_{trajectory_name}.npy'
+    save_path = str(SAVE_PATH) 
     xml_path = str(MODEL_PATH)
 
     # -------------------------------
@@ -102,7 +102,9 @@ def get_lissajous_3d_trajectory(trajectory_name):
     # -------------------------------
     # Сохраняем координаты эндэффектора
     ee_positions = np.array(ee_positions)
-    np.save(save_path, ee_positions)
+    np.save(save_path + f'/lissajous_3d_ee_pos.npy', ee_positions)
+    np.save(save_path + f'/lissajous_3d_q.npy', q_traj)
+    np.save(save_path + f'/lissajous_3d_dq.npy', dq_traj)
     print(f"Координаты эндэффектора сохранены в {save_path}")
 
     # -------------------------------
