@@ -5,7 +5,7 @@ import time
 from pathlib import Path
 
 SCRIPT_DIR = Path(__file__).resolve().parent
-PROJECT_ROOT = SCRIPT_DIR.parent
+PROJECT_ROOT = SCRIPT_DIR.parent.parent
 MODEL_PATH = PROJECT_ROOT / "models" / "robot" / "robot.xml"
 
 model = mj.MjModel.from_xml_path(str(MODEL_PATH)) 

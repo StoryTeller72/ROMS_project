@@ -52,7 +52,7 @@ def execute_trajectory(positions, q, dq):
             viewer.sync()
 
 if __name__ == '__main__':
-    positions = np.load('/home/rustam/ROMS/data/complicated_trajectory/circle_endeffector.npy')
-    control_q = np.load('/home/rustam/ROMS/data/complicated_trajectory/circle_q.npy')
-    condtrol_dq = np.load('/home/rustam/ROMS/data/complicated_trajectory/circle_dq.npy')
+    positions = np.load('/home/rustam/ROMS/data/complicated_trajectory/circle_horizontal_endeffector.npy')
+    control_q = np.load('/home/rustam/ROMS/data/complicated_trajectory/circle_horizontal_q.npy')
+    condtrol_dq = np.load('/home/rustam/ROMS/data/complicated_trajectory/circle_horizontal_dq.npy')
     execute_trajectory(positions, control_q, condtrol_dq)

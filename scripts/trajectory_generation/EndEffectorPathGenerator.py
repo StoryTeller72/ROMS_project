@@ -5,7 +5,7 @@ from pathlib import Path
 from scipy.optimize import least_squares
 
 SCRIPT_DIR = Path(__file__).resolve().parent
-PROJECT_ROOT = SCRIPT_DIR.parent
+PROJECT_ROOT = SCRIPT_DIR.parent.parent
 MODEL_PATH = PROJECT_ROOT / "models" / "robot" / "robot.xml"
 
 class EndEffectorPathGenerator:

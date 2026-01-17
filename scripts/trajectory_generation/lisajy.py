@@ -5,48 +5,49 @@ from scipy.interpolate import CubicSpline
 import matplotlib.pyplot as plt
 from pathlib import Path
 
-def get_circular_trajectory(trajectory_name):
+def get_lissajous_3d_trajectory(trajectory_name):
+    # -------------------------------
+    # Пути к файлам
     SCRIPT_DIR = Path(__file__).resolve().parent
-    PROJECT_ROOT = SCRIPT_DIR.parent
+    PROJECT_ROOT = SCRIPT_DIR.parent.parent
     MODEL_PATH = PROJECT_ROOT / "models" / "robot" / "robot.xml"
     SAVE_PATH = PROJECT_ROOT / "data"
-    save_path = str(SAVE_PATH)
+    save_path = str(SAVE_PATH) + f'/lissajous_3d_{trajectory_name}.npy'
     xml_path = str(MODEL_PATH)
 
     # -------------------------------
-    # Параметры симуляции
-    # -------------------------------
+    # Загружаем модель
     model = mj.MjModel.from_xml_path(xml_path)
     data = mj.MjData(model)
     dt = model.opt.timestep
-    t_total = 5.0
+    t_total = 10
+    n_points = 7
 
     # -------------------------------
     # ID эндэффектора и начальная позиция
     ee_id = mj.mj_name2id(model, mj.mjtObj.mjOBJ_BODY, "end-effector")
     mj.mj_forward(model, data)
-    ee_start = data.xpos[ee_id].copy()  # верхняя точка круга
+    ee_start = data.xpos[ee_id].copy()
+    ee_start[2] -= 0.3
     print("EE start position:", ee_start)
 
     # -------------------------------
-    # Создаём точки окружности в плоскости XZ
-    n_points = 2000
+    # Параметры кривой Лиссажу
+    ax, ay, az = 0.3, 0.3 , 0.1       # амплитуды
+    fx, fy, fz = 2.0, 2, 1.0          # частоты
+    dx, dy, dz = 0, np.pi/2, np.pi/2    # фазы
+
     t_waypoints = np.linspace(0, t_total, n_points)
-    radius = 0.3
-
-    # Центр круга смещён вниз по Z на радиус, чтобы верхняя точка = ee_start
-    circle_center = ee_start.copy()
-    circle_center[2] -= radius
-
-    theta = np.linspace(0, 2*np.pi, n_points)
     ee_traj = np.zeros((n_points, 3))
-    ee_traj[:, 0] = circle_center[0] + radius * np.sin(theta)  # X
-    ee_traj[:, 1] = circle_center[1]                         # Y (фиксируем)
-    ee_traj[:, 2] = circle_center[2] + radius * np.cos(theta)  # Z
-    # # -------------------------------
-    # Простая ИК для каждого шага
-    def inverse_kinematics(target, max_iter=500, tol=1e-4, lr=0.5):
-        q = data.qpos.copy()
+    ee_traj[:, 0] = ee_start[0] + ax * np.sin(2*np.pi*fx*t_waypoints/t_total + dx)
+    ee_traj[:, 1] = ee_start[1] + ay * np.sin(2*np.pi*fy*t_waypoints/t_total + dy)
+    ee_traj[:, 2] = ee_start[2] + az * np.sin(2*np.pi*fz*t_waypoints/t_total + dz)
+
+    # -------------------------------
+    # Функция IK с damped pseudoinverse
+    def inverse_kinematics_damped(target, q_init, model, data, ee_id, max_iter=200, tol=1e-4, damping=0.01, dq_max=0.1):
+        q = q_init.copy()
+        nq = len(q)
         for _ in range(max_iter):
             data.qpos[:] = q
             mj.mj_forward(model, data)
@@ -54,21 +55,27 @@ def get_circular_trajectory(trajectory_name):
             err = target - ee_pos
             if np.linalg.norm(err) < tol:
                 break
-
-            # Вычисляем Якоби (mj_jacBody)
-            jacp = np.zeros((3, model.nv))
-            mj.mj_jacBody(model, data, jacp, np.zeros_like(jacp), ee_id)
-
-            # Псевдообратная матрица Якоби
-            dq = lr * np.linalg.pinv(jacp) @ err
-            q[:len(dq)] += dq  # только n DOF
+            # Якоби
+            J = np.zeros((3, nq))
+            mj.mj_jacBody(model, data, J, None, ee_id)
+            # Damped pseudoinverse
+            JTJ = J @ J.T + (damping**2) * np.eye(3)
+            dq = J.T @ np.linalg.solve(JTJ, err)
+            # Ограничение максимальной скорости
+            dq = np.clip(dq, -dq_max, dq_max)
+            q += dq
         return q
 
-    joint_waypoints = np.zeros((n_points, model.nq))
-    for i in range(n_points):
-        joint_waypoints[i] = inverse_kinematics(ee_traj[i])
     # -------------------------------
-    # Генерация гладкой траектории через CubicSpline
+    # Генерируем опорные точки для суставов
+    joint_waypoints = np.zeros((n_points, model.nq))
+    q_init = data.qpos.copy()
+    for i in range(n_points):
+        joint_waypoints[i] = inverse_kinematics_damped(ee_traj[i], q_init, model, data, ee_id)
+        q_init = joint_waypoints[i]  # плавность
+
+    # -------------------------------
+    # Плавная траектория через CubicSpline
     t_fine = np.arange(0, t_total, dt)
     q_traj = np.zeros((len(t_fine), model.nq))
     dq_traj = np.zeros_like(q_traj)
@@ -92,17 +99,15 @@ def get_circular_trajectory(trajectory_name):
 
     viewer.close()
 
-    # # -------------------------------
+    # -------------------------------
     # Сохраняем координаты эндэффектора
     ee_positions = np.array(ee_positions)
-    np.save(save_path + f'/complicated_trajectory/{trajectory_name}_endeffector.npy', ee_positions)
-    np.save(save_path + f'/complicated_trajectory/{trajectory_name}_q.npy', q_traj)
-    np.save(save_path + f'/complicated_trajectory/{trajectory_name}_dq.npy', dq_traj)
+    np.save(save_path, ee_positions)
     print(f"Координаты эндэффектора сохранены в {save_path}")
 
     # -------------------------------
-    # # Графики
-    plt.figure(figsize=(12, 6))
+    # Графики
+    plt.figure(figsize=(12,6))
     for j in range(model.nq):
         plt.plot(t_fine, q_traj[:, j], label=f'Joint {j+1}')
     plt.title("Joint Angles")
@@ -112,7 +117,7 @@ def get_circular_trajectory(trajectory_name):
     plt.legend()
     plt.show()
 
-    plt.figure(figsize=(12, 6))
+    plt.figure(figsize=(12,6))
     plt.plot(t_fine, ee_positions[:, 0], label='X')
     plt.plot(t_fine, ee_positions[:, 1], label='Y')
     plt.plot(t_fine, ee_positions[:, 2], label='Z')
@@ -125,4 +130,4 @@ def get_circular_trajectory(trajectory_name):
 
 
 if __name__ == "__main__":
-    get_circular_trajectory("circle")
+    get_lissajous_3d_trajectory("lissajous3d")

@@ -7,7 +7,7 @@ from pathlib import Path
 
 def get_trajectory(joint_number):
     SCRIPT_DIR = Path(__file__).resolve().parent
-    PROJECT_ROOT = SCRIPT_DIR.parent
+    PROJECT_ROOT = SCRIPT_DIR.parent.parent
     MODEL_PATH = PROJECT_ROOT / "models" / "robot"
     SAVE_PATH = PROJECT_ROOT / "data" 
     save_path = str(SAVE_PATH) +f'/link{joint_number}/link{joint_number}.npy'
