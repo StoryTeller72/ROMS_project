@@ -4,14 +4,18 @@ import numpy as np
 from scipy.interpolate import CubicSpline
 from pathlib import Path
 
-def visualize_trajectory(positions, xml_path="/home/rustam/ROMS/models/robot/robot1joint.xml"):
+def visualize_trajectory(positions):
     """
     Визуализирует траекторию эндэффектора в MuJoCo Viewer.
     
     positions: np.array, shape (N, 3) - глобальные позиции эндэффектора
     xml_path: путь к XML модели робота
     """
+    SCRIPT_DIR = Path(__file__).resolve().parent.parent
+    PROJECT_ROOT = SCRIPT_DIR.parent
+    MODEL_PATH = PROJECT_ROOT / "models" / "robot" / "robot.xml"
     # Загружаем модель
+    xml_path = str(MODEL_PATH)
     model = mj.MjModel.from_xml_path(xml_path)
     data = mj.MjData(model)
     
@@ -43,8 +47,5 @@ def visualize_trajectory(positions, xml_path="/home/rustam/ROMS/models/robot/rob
         viewer.sync()
 
 if __name__ == '__main__':
-    positions = np.load('/home/rustam/ROMS/ee_positions.npy')
-    SCRIPT_DIR = Path(__file__).resolve().parent
-    PROJECT_ROOT = SCRIPT_DIR.parent
-    MODEL_PATH = PROJECT_ROOT / "models" / "robot" / "robot.xml"
+    positions = np.load('/home/rustam/ROMS/data/link4/link4.npy',)
     visualize_trajectory(positions)
