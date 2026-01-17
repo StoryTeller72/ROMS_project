@@ -47,7 +47,6 @@
             <!-- Звено 2 -->
           <body name="link2" pos="0 0 0.232">
             <inertial pos="0.0 0.05005 -0.0055" mass="2.164" diaginertia="0.0051147 0.0025546 0.0048539"/>
-            <joint name='joint1' range='-3.1415 3.1415'/>
             <geom type="mesh" mesh="link2_mesh" name="link2_geom"/>
 
 
@@ -61,14 +60,12 @@
                 <!-- Звено 4 -->
               <body name="link4" pos='0 -0.0975 0.375'>
                 <inertial pos="0 0.01117 0.18745" mass="2.821" diaginertia="0.0289611 0.0272949 0.0031766"/>
-                <joint name="joint3" type="hinge" range='-2.7925 2.7925' axis='0 1 0'/>
                 <geom type="mesh" mesh="link4_mesh" name="link4_geom"/>
 
 
                   <!-- Звено 5 -->
                 <body name="link5" pos="0 0.0975 0.295">
                   <inertial pos="0.0 0.00029 0.06847" mass="0.774" diaginertia="0.0017398  0.0017792 0.0003276"/>
-                  <joint name="joint4" axis='0 1 0' range='-3.1415 3.1415'/>
                   <geom type="mesh" mesh="link5_mesh" name="link5_geom"/>
 
 
@@ -77,14 +74,12 @@
                   <!-- Звено 6 -->
                   <body name="link6" pos='0 0 0.171'>
                     <inertial pos="0 0.03163 -0.00454" mass="0.664" diaginertia="0.0009562 0.0002862 0.0009180"/>
-                    <joint name="joint5" range='-3.1415 3.1415'/>
                     <geom type="mesh" mesh="link6_mesh" name="link6_geom"/>
 
 
                       <!-- ендэффектор -->
                     <body name="end-effector" pos='0 0.1225 0'>
                       <inertial pos="0 -0.004132 0.0011" mass="0.176" diaginertia="0.0000699 0.0000853 0.0000677"/>
-                      <joint name='joint6' axis='0 1 0' range='-3.1415 3.1415'/>
                       <geom type="mesh" mesh="endEffector_mesh" name="endeffector"/>
 
                       <!-- Шар-имитатор нагрузки -->
@@ -114,12 +109,7 @@
 
   <!-- Для генерации траекторий -->
   <actuator>
-    <position name='acc1' joint="joint1" kp="100" ctrlrange="-3.14 3.14"/>
     <position name='acc2' joint="joint2" kp='100' ctrlrange="-3.14 3.14"/>
-    <position name='acc3' joint="joint3" kp='100' ctrlrange='-2.79 2.79'/>
-    <position name='acc4' joint="joint4" kp='100' ctrlrange="-3.14 3.14"/>
-    <position name='acc5' joint="joint5" kp='100' ctrlrange="-3.14 3.14"/>
-    <position name='acc6' joint="joint6" kp='1' ctrlrange="-3.14 3.14"/>
   </actuator>
 
 

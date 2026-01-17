@@ -534,7 +534,7 @@ class EndEffectorPathGenerator:
         while t < duration:
             alpha = t / duration
             
-            temp_data.ctrl[:] = np.array([0.3, 0.2, 0.25, 0.15, 0.15, 0.05]) * np.sin(2 * np.pi * t / duration)
+            temp_data.ctrl[:] = np.array([0.3, 0.2, 0.25, 0.15, 0.15, 0.05]) * np.sin(2 * np.pi * alpha)
             
             mj.mj_step(self.model, temp_data)
             
@@ -556,7 +556,7 @@ class EndEffectorPathGenerator:
             while viewer.is_running() and t < duration:
                 alpha = t / duration
                 
-                self.data.ctrl[:] = np.array([0.3, 0.2, 0.25, 0.15, 0.15, 0.05]) * np.sin(2 * np.pi * t / duration)
+                self.data.ctrl[:] = np.array([0.3, 0.2, 0.25, 0.15, 0.15, 0.05]) * np.sin(2 * np.pi * alpha)
                 
                 mj.mj_step(self.model, self.data)
                 
@@ -663,12 +663,12 @@ def main():
     elif choice == "3":
         print("\nГенерирую кривую Лиссажу с IK...")
         center = np.array([0.5, 0.0, 0.8])
-        generator.generate_lissajous_path(center=center, duration=8.0, freq_x=2, freq_y=3, amp_x=0.15, amp_y=0.15)
+        generator.generate_lissajous_path(duration=8.0, freq_x=2, freq_y=3, amp_x=0.15, amp_y=0.15)
     
     # Сохранение траектории
     save = input("\nСохранить траекторию в CSV? (y/n): ").strip().lower()
     if save == 'y':
-        output_path = PROJECT_ROOT / "data" / "ee_trajectory.csv"
+        output_path = PROJECT_ROOT / "data" / f"{choice}_trajectory.csv"
         output_path.parent.mkdir(parents=True, exist_ok=True)
         generator.save_path_to_csv(str(output_path))
 
