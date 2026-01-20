@@ -1,5 +1,5 @@
 <mujoco model="6dof_robot">
-  <option timestep="0.002" gravity="0 0 -9.81" integrator="RK4"/>
+  <option timestep="0.002" gravity="0 0 -9.81" integrator="implicitfast" density="1.225"/>
    <compiler angle="radian" meshdir="parts"/>
   <statistic center="0 1 1" extent="2"/>
 
@@ -47,28 +47,28 @@
             <!-- Звено 2 -->
           <body name="link2" pos="0 0 0.232">
             <inertial pos="0.0 0.05005 -0.0055" mass="2.164" diaginertia="0.0051147 0.0025546 0.0048539"/>
-            <joint name='joint1' range='-3.1415 3.1415'/>
+            <joint name='joint1' range='-3.1415 3.1415' damping="0.5"/>
             <geom type="mesh" mesh="link2_mesh" name="link2_geom"/>
 
 
-              <!-- Звено 3 -->
+            <!-- Звено 3 -->
             <body name="link3" pos="0 0.1205 0">
               <inertial pos="0 -0.008 0.2127" mass="3.732" diaginertia="0.0651410 0.0635245 0.0040818"/>
-              <joint name="joint2" axis='0 1 0' range='-3.1415 3.1415'/>
+              <joint name="joint2" axis='0 1 0' range='-3.1415 3.1415' damping="0.4"/>
               <geom type="mesh" mesh="link3_mesh" name="link3_geom"/>
 
 
-                <!-- Звено 4 -->
+              <!-- Звено 4 -->
               <body name="link4" pos='0 -0.0975 0.375'>
                 <inertial pos="0 0.01117 0.18745" mass="2.821" diaginertia="0.0289611 0.0272949 0.0031766"/>
-                <joint name="joint3" type="hinge" range='-2.7925 2.7925' axis='0 1 0'/>
+                <joint name="joint3" type="hinge" range='-2.7925 2.7925' axis='0 1 0' damping="0.6"/>
                 <geom type="mesh" mesh="link4_mesh" name="link4_geom"/>
 
 
                   <!-- Звено 5 -->
                 <body name="link5" pos="0 0.0975 0.295">
                   <inertial pos="0.0 0.00029 0.06847" mass="0.774" diaginertia="0.0017398  0.0017792 0.0003276"/>
-                  <joint name="joint4" axis='0 1 0' range='-3.1415 3.1415'/>
+                  <joint name="joint4" axis='0 1 0' range='-3.1415 3.1415' damping="0.3"/>
                   <geom type="mesh" mesh="link5_mesh" name="link5_geom"/>
 
 
@@ -77,19 +77,19 @@
                   <!-- Звено 6 -->
                   <body name="link6" pos='0 0 0.171'>
                     <inertial pos="0 0.03163 -0.00454" mass="0.664" diaginertia="0.0009562 0.0002862 0.0009180"/>
-                    <joint name="joint5" range='-3.1415 3.1415'/>
+                    <joint name="joint5" range='-3.1415 3.1415' damping="0.5"/>
                     <geom type="mesh" mesh="link6_mesh" name="link6_geom"/>
 
 
                       <!-- ендэффектор -->
                     <body name="end-effector" pos='0 0.1225 0'>
                       <inertial pos="0 -0.004132 0.0011" mass="0.176" diaginertia="0.0000699 0.0000853 0.0000677"/>
-                      <joint name='joint6' axis='0 1 0' range='-3.1415 3.1415'/>
+                      <joint name='joint6' axis='0 1 0' range='-3.1415 3.1415' damping="0.6"/>
                       <geom type="mesh" mesh="endEffector_mesh" name="endeffector"/>
 
                       <!-- Шар-имитатор нагрузки -->
                       <body name="payload" pos="0 0.01 0"> <!-- смещаем немного от центра ендэффектора -->
-                        <inertial mass="0.0001" pos="0 0 0" diaginertia="0.0001 0.0001 0.0001"/>
+                        <inertial mass="0.0001" pos="0 0 0" diaginertia="1.6e-8 1.6e-8 1.6e-8"/>
                         <geom type="sphere" size="0.02" rgba="0.8 0.2 0.2 1"/> <!-- красный шар -->
                       </body>
                     </body>
