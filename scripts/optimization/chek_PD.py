@@ -8,11 +8,11 @@ import matplotlib.pyplot as plt
 # ================================
 MODEL_PATH = "/home/rustam/ROMS/models/robot/robot.xml"
 
-Q_TRAJ_PATH = "/home/rustam/ROMS/data/complicated_trajectory/circle_horizontal_q.npy"
-DQ_TRAJ_PATH = "/home/rustam/ROMS/data/complicated_trajectory/circle_horizontal_dq.npy"
-END_EFF_PATH = '/home/rustam/ROMS/data/complicated_trajectory/circle_horizontal_endeffector.npy'
+Q_TRAJ_PATH = "/home/rustam/ROMS/data/lissajous_3d_q.npy"
+DQ_TRAJ_PATH = "/home/rustam/ROMS/data/lissajous_3d_dq.npy"
+END_EFF_PATH = '/home/rustam/ROMS/data/lissajous_3d_ee_pos.npy'
 Kp = 0.01
-Kd = 0.005
+Kd = 0.05
 
 # ================================
 # ЗАГРУЗКА
