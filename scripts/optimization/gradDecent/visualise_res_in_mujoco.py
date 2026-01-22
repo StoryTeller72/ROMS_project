@@ -13,7 +13,7 @@ joint_idx = 0
 # -----------------------------
 # 2. Загрузка траекторий
 # -----------------------------
-data_npz = np.load("/home/rustam/ROMS/data/sinus/joint_trajectories_0_False.npz")
+data_npz = np.load("/home/rustam/ROMS/data/sinus/random/joint_trajectories_0_True_iter0.npz")
 q_des_batch = data_npz["q_des"]  # shape: (N, steps, num_joints)
 qd_des_batch = data_npz["qd_des"]
 
