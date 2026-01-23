@@ -5,8 +5,8 @@ import matplotlib.pyplot as plt
 # -----------------------------
 # 1. Загрузка модели
 # -----------------------------
-model = mujoco.MjModel.from_xml_path("/home/rustam/ROMS/models/robot/robotDynamicW1.5.xml")
-# model = mujoco.MjModel.from_xml_path("/home/rustam/ROMS/models/robot/robotDynamic.xml")
+# model = mujoco.MjModel.from_xml_path("/home/rustam/ROMS/models/robot/robotDynamicW0.5.xml")
+model = mujoco.MjModel.from_xml_path("/home/rustam/ROMS/models/robot/robotDynamic.xml")
 
 # -----------------------------
 # 2. Загрузка данных (NPZ с батчами)
@@ -35,17 +35,14 @@ ctrl_max = model.actuator_ctrlrange[:,1]
 # -----------------------------
 # 4. Rollout + loss по 2 случайным батчам
 # -----------------------------
-def rollout_loss(params, reg_lambda=1e-8):
-    """
-    params: [Kp0,Kd0, Kp1,Kd1,...] для выбранных суставов
-    Усреднение по 2 случайным траекториям
-    """
-    selected_batches = [0,1]
-    loss_total = 0.0
-
-    for batch_idx in selected_batches:
-        q_ref = q_batches[batch_idx]
-        dq_ref = dq_batches[batch_idx]
+# =============================
+# 4. LOSS
+# =============================
+def rollout_loss(params):
+    total_loss = 0.0
+    for b in range(N_batch):
+        q_ref  = q_batches[b]
+        dq_ref = dq_batches[b]
 
         data = mujoco.MjData(model)
         data.qpos[:] = 0.0
@@ -55,28 +52,29 @@ def rollout_loss(params, reg_lambda=1e-8):
         loss = 0.0
         for t in range(steps):
             tau = np.zeros(model.nu)
-            for idx, joint in enumerate(joint_indices):
-                Kp = params[2*idx]
-                Kd = params[2*idx+1]
-                q  = data.qpos[joint]
-                dq = data.qvel[joint]
-                u = Kp*(q_ref[t,joint]-q) + Kd*(dq_ref[t,joint]-dq)
-                tau[joint] = np.clip(u, ctrl_min[joint], ctrl_max[joint])
+            for i, j in enumerate(joint_indices):
+                Kp = params[2*i]
+                Kd = params[2*i+1]
+
+                q  = data.qpos[j]
+                dq = data.qvel[j]
+
+                u = Kp*(q_ref[t,j]-q) + Kd*(dq_ref[t,j]-dq)
+                tau[j] = np.clip(u, ctrl_min[j], ctrl_max[j])
 
             data.ctrl[:] = tau
             mujoco.mj_step(model, data)
-            loss += np.linalg.norm(data.xpos[ee_body_id] - ref_pos[batch_idx][t])
 
-        loss_total += loss / steps
+            loss += np.linalg.norm(data.xpos[ee_body_id] - ref_pos[b][t])
 
-    loss_avg = loss_total / 2  # среднее по 2 батчам
-    reg_loss = reg_lambda * np.sum(np.square(params))
-    return loss_avg + reg_loss
+        total_loss += loss / steps
+
+    return total_loss / N_batch
 
 # -----------------------------
 # 5. Differential Evolution с сохранением лоссов
 # -----------------------------
-def differential_evolution(loss_fn, bounds, pop_size=20, F=0.8, CR=0.9, generations=50, save_file="DE_loss_history1.5kg.txt"):
+def differential_evolution(loss_fn, bounds, pop_size=20, F=0.8, CR=0.9, generations=50, save_file="DE_loss_history.txt"):
     dim = len(bounds)
     pop = np.array([[np.random.uniform(low, high) for (low, high) in bounds] for _ in range(pop_size)])
     fitness = np.array([loss_fn(ind) for ind in pop])
@@ -124,11 +122,11 @@ def differential_evolution(loss_fn, bounds, pop_size=20, F=0.8, CR=0.9, generati
 # 6. Определяем bounds
 # -----------------------------
 bounds = [
-    (200, 600), (50, 300),   # joint 1
-    (700, 1400), (5, 300),   # joint 2
-    (900, 1500), (5, 300),   # joint 3
-    (10, 300), (5, 300),    # joint 4
-    (200, 600), (5, 300),    # joint 5
+    (5, 400), (5, 300),   # joint 1
+    (5, 400), (5, 250),   # joint 2
+    (5, 300), (5, 200),   # joint 3
+    (5, 300), (5, 120),    # joint 4
+    (5, 300), (5, 120),    # joint 5
 ]
 
 # -----------------------------
@@ -139,7 +137,7 @@ best_params, best_loss = differential_evolution(
     bounds,
     pop_size=50,
     generations=20,
-
+    save_file="loss_history2.txt"
 )
 
 KpList = []

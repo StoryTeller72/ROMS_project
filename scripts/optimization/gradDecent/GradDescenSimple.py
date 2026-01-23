@@ -6,15 +6,18 @@ import matplotlib.pyplot as plt
 # 1. Загрузка модели
 # =============================
 model = mujoco.MjModel.from_xml_path(
-    "/home/rustam/ROMS/models/robot/robotDynamic.xml"
+    "/home/rustam/ROMS/models/robot/robotDynamicW1.5.xml"
 )
 
 # =============================
 # 2. Загрузка данных (1 траектория)
 # =============================
-positions   = np.load("/home/rustam/ROMS/data/linkall/pos/0.npy")
-control_q   = np.load("/home/rustam/ROMS/data/linkall/q/0.npy")
-control_dq  = np.load("/home/rustam/ROMS/data/linkall/dq/0.npy")
+# positions   = np.load("/home/rustam/ROMS/data/linkall/pos/0.npy")
+# control_q   = np.load("/home/rustam/ROMS/data/linkall/q/0.npy")
+# control_dq  = np.load("/home/rustam/ROMS/data/linkall/dq/0.npy")
+positions   = np.load("/home/rustam/ROMS/data/lissajous_3d_ee_pos.npy")
+control_q   = np.load("/home/rustam/ROMS/data/lissajous_3d_q.npy")
+control_dq  = np.load("/home/rustam/ROMS/data/lissajous_3d_q.npy")
 
 steps, n_joints = control_q.shape
 
@@ -36,8 +39,8 @@ ctrl_max = model.actuator_ctrlrange[:, 1]
 # =============================
 def rollout_loss(params):
     data = mujoco.MjData(model)
-    data.qpos[:] = control_q[0]
-    data.qvel[:] = control_dq[0]
+    data.qpos[:] = control_q[0][:5]
+    data.qvel[:] = control_dq[0][:5]
     mujoco.mj_forward(model, data)
 
     loss = 0.0
@@ -96,7 +99,7 @@ def numeric_gradient(params, eps=1e-3):
 def gradient_descent(
     init_params,
     bounds,
-    lr=3e-3,
+    lr=1,
     iters=30,
     eps=1e-3
 ):
@@ -125,20 +128,24 @@ def gradient_descent(
 # 7. Bounds + init
 # =============================
 bounds = [
-    (50, 400), (20, 120),   # joint 1
-    (40, 350), (15, 100),   # joint 2
-    (40, 300), (10, 80),    # joint 3
-    (30, 200), (5, 60),     # joint 4
-    (20, 150), (5, 40),     # joint 5
+    (200, 600), (50, 300),   # joint 1
+    (700, 1400), (5, 300),   # joint 2
+    (900, 1500), (5, 300),   # joint 3
+    (10, 300), (5, 300),    # joint 4
+    (200, 600), (5, 300),    # joint 5
 ]
 
+# bestParamsNoweiths
 init_params = np.array([
-    150, 50,
-    120, 40,
-    100, 30,
-    80,  20,
-    60,  15
+    402, 50,
+    897, 143,
+    900, 5,
+    300,  5,
+    200,  5
 ], dtype=np.float64)
+
+Kp = [402, 897, 900, 300, 200]
+Kd = [50, 143, 5, 5.0, 5.0]
 
 # =============================
 # 8. Запуск оптимизации
@@ -146,13 +153,16 @@ init_params = np.array([
 best_params, loss_hist = gradient_descent(
     init_params,
     bounds,
-    lr=3e-3,
-    iters=25,
+    lr=100,
+    iters=200,
     eps=1e-3
 )
 
 print("\n=== GRADIENT DESCENT DONE ===")
 print("Best params:", best_params)
+file_path = 'w15GradDesTunning.txt'
+with open(file_path, "w") as f:
+    f.write(", ".join(map(str, loss_hist)))
 
 # =============================
 # 9. График
@@ -164,3 +174,5 @@ plt.ylabel("Loss")
 plt.title("Gradient Descent (numeric gradients)")
 plt.grid(True)
 plt.show()
+
+

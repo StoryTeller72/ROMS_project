@@ -1,0 +1,26 @@
+Finall DE regulisation no weight
+KP: [np.float64(479.3177063016201), np.float64(500.0), np.float64(400.0), np.float64(273.2494844827545), np.float64(157.17220189229621)] 
+KD: [np.float64(56.534080922512594), np.float64(223.89591410213058), np.float64(9.233460489838537), np.float64(2.0), np.float64(2.0)]
+
+Final De morepowerful regulisation
+281.46721782  13.40287756 400.          62.69237353 174.89750592
+   5.         224.30823031   5.         209.58126519 120.
+
+Final loss: 0.058540952845787475
+KP: [np.float64(266.6942476437687), np.float64(377.7109741393203), np.float64(300.0), np.float64(300.0), np.float64(300.0)] 
+KD: [np.float64(55.85738442847635), np.float64(72.78942637216542), np.float64(6.852338045243025), np.float64(5.0), np.float64(9.592127979510042)]
+
+=== SIMULATED ANNEALING DONE ===
+Joint 0: Kp=73.40, Kd=119.15
+Joint 1: Kp=171.93, Kd=94.72
+Joint 2: Kp=131.01, Kd=44.00
+Joint 3: Kp=112.02, Kd=57.26
+Joint 4: Kp=142.15, Kd=13.01
+second try
+
+
+Joint 0: Kp=312.42, Kd=163.42
+Joint 1: Kp=12.73, Kd=142.08
+Joint 2: Kp=229.72, Kd=101.19
+Joint 3: Kp=193.33, Kd=113.66
+Joint 4: Kp=300.00, Kd=5.77

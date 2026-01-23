@@ -31,3 +31,13 @@ Joint 1: Kp=212.92, Kd=87.77
 Joint 2: Kp=174.81, Kd=19.38
 Joint 3: Kp=65.03, Kd=22.43
 Joint 4: Kp=33.72, Kd=5.00
+
+
+DE weight 0.5 best
+=== OPTIMIZATION DONE ===
+Best Kp/Kd params for joints: [60.64120644 20.         60.46629298 64.36315006 46.38100092 25.78472287
+ 31.44459145 48.58850536 20.          5.        ]
+Final loss: 2.2035722083031173
+
+
+
