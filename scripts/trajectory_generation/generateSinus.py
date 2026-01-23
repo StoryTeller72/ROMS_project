@@ -69,4 +69,4 @@ def generate_traj(need_joint, amnt_traj):
 
 if __name__ == '__main__':
     # for i in range(6):
-    generate_traj(4, 1)
+    generate_traj('all', 1)

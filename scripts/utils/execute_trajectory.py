@@ -58,8 +58,8 @@ if __name__ == '__main__':
     # control_dq = np.load('/home/rustam/ROMS/data/complicated_trajectory/circle_horizontal_dq.npy')
     # print(control_q.shape)
 
-    positions = np.load(f'/home/rustam/ROMS/data/link4/pos/0.npy')
-    control_q = np.load(f'/home/rustam/ROMS/data/link4/q/0.npy')
-    control_dq = np.load(f'/home/rustam/ROMS/data/link4/dq/0.npy')
+    positions = np.load(f'/home/rustam/ROMS/data/linkall/pos/0.npy')
+    control_q = np.load(f'/home/rustam/ROMS/data/linkall/q/0.npy')
+    control_dq = np.load(f'/home/rustam/ROMS/data/linkall/dq/0.npy')
     print(control_q.shape)
     execute_trajectory(positions, control_q, control_dq,False)
