@@ -13,7 +13,7 @@ def execute_trajectory(positions, q, dq, plot = True):
     """
     SCRIPT_DIR = Path(__file__).resolve().parent.parent
     PROJECT_ROOT = SCRIPT_DIR.parent
-    MODEL_PATH = PROJECT_ROOT / "models" / "robot" / "robot.xml"
+    MODEL_PATH = PROJECT_ROOT / "models" / "robot" / "robotDynamic.xml"
     # Загружаем модель
     xml_path = str(MODEL_PATH)
     model = mj.MjModel.from_xml_path(xml_path)

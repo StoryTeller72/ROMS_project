@@ -12,7 +12,7 @@ def generate_traj(need_joint, amnt_traj):
     SAVE_PATH = PROJECT_ROOT / "data"
     save_path = str(SAVE_PATH)
     xml_path = str(MODEL_PATH)
-    num_joints = 6
+    num_joints = 5
     T = 10.0
     dt = 0.002
     steps = int(T / dt)
@@ -32,17 +32,17 @@ def generate_traj(need_joint, amnt_traj):
     ee_body_id =  mj.mj_name2id(model, mj.mjtObj.mjOBJ_BODY, "end-effector")
 
     t = np.linspace(0, T, steps)
-    q_des_batch  = np.zeros((steps, num_joints))
-    qd_des_batch = np.zeros((steps, num_joints))
-    ee_pos_batch = []   
     for traj_idx in range(amnt_traj):
-        q0 = np.zeros(6)
-        A = np.zeros(6)
-        w = np.zeros(6)
+        q_des_batch  = np.zeros((steps, num_joints))
+        qd_des_batch = np.zeros((steps, num_joints))
+        ee_pos_batch = []   
+        q0 = np.zeros(num_joints)
+        A = np.zeros(num_joints)
+        w = np.zeros(num_joints)
 
         if need_joint == 'all':
 
-            for j in range(6):
+            for j in range(num_joints):
                 A[j] = np.random.uniform(*A_range[j])
                 w[j] = np.random.uniform(*w_range[j])
         else:
@@ -69,4 +69,4 @@ def generate_traj(need_joint, amnt_traj):
 
 if __name__ == '__main__':
     # for i in range(6):
-    generate_traj('all', 1)
+    generate_traj('all', 3)

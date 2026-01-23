@@ -84,7 +84,6 @@
                       <!-- ендэффектор -->
                     <body name="end-effector" pos='0 0.1225 0'>
                       <inertial pos="0 -0.004132 0.0011" mass="0.176" diaginertia="0.0000699 0.0000853 0.0000677"/>
-                      <joint name='joint6' axis='0 1 0' range='-3.1415 3.1415' damping="0.6"/>
                       <geom type="mesh" mesh="endEffector_mesh" name="endeffector"/>
 
                       <!-- Шар-имитатор нагрузки -->
@@ -114,8 +113,6 @@
          gear="1" ctrllimited="true" ctrlrange="-80 80"/>
   <motor name="act_joint5" joint="joint5"
          gear="1" ctrllimited="true" ctrlrange="-60 60"/>
-  <motor name="act_joint6" joint="joint6"
-         gear="1" ctrllimited="true" ctrlrange="-40 40"/>
 </actuator>
 
 </mujoco>
