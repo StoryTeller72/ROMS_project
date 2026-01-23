@@ -47,5 +47,6 @@ def visualize_trajectory(positions):
         viewer.sync()
 
 if __name__ == '__main__':
-    positions = np.load('/home/rustam/ROMS/data/complicated_trajectory/circle_horizontal_endeffector.npy')
+    # positions = np.load('/home/rustam/ROMS/data/complicated_trajectory/circle_horizontal_endeffector.npy')
+    positions = np.load('/home/rustam/ROMS/data/link0/pos.npy')
     visualize_trajectory(positions)

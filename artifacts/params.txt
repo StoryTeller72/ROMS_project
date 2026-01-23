@@ -1,0 +1,33 @@
+DE 1 batch pop_size 50 generations 30
+Kp  200, 199, 197, 184.3, 111.6, 0
+Kd  93.5, 100, 3.5, 1, 1.05, 0
+
+
+DE 5 baatch pop_size50 generations 20
+
+Kp = [121, 150, 150, 146.6, 150]
+Kd = [10, 52, 16.5, 10.45,  10]
+
+
+=== STOCHASTIC GD DONE ===
+Joint 0: Kp=79.83, Kd=37.52
+Joint 1: Kp=154.49, Kd=56.86
+Joint 2: Kp=188.02, Kd=24.30
+Joint 3: Kp=97.58, Kd=21.36
+Joint 4: Kp=153.16, Kd=64.73
+
+
+=== SIMULATED ANNEALING DONE ===
+Joint 0: Kp=49.29, Kd=17.47
+Joint 1: Kp=159.07, Kd=73.22
+Joint 2: Kp=147.01, Kd=40.80
+Joint 3: Kp=168.48, Kd=5.00
+Joint 4: Kp=130.05, Kd=43.23
+
+
+=== SIMULATED ANNEALING DONE ===
+Joint 0: Kp=260.80, Kd=54.24
+Joint 1: Kp=212.92, Kd=87.77
+Joint 2: Kp=174.81, Kd=19.38
+Joint 3: Kp=65.03, Kd=22.43
+Joint 4: Kp=33.72, Kd=5.00
