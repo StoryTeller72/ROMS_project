@@ -48,5 +48,5 @@ def visualize_trajectory(positions):
 
 if __name__ == '__main__':
     # positions = np.load('/home/rustam/ROMS/data/complicated_trajectory/circle_horizontal_endeffector.npy')
-    positions = np.load('/home/rustam/ROMS/data/linkall/pos/0.npy')
+    positions = np.load('/home/rustam/ROMS/data/lissajous_3d_ee_pos.npy')
     visualize_trajectory(positions)

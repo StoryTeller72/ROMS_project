@@ -31,6 +31,13 @@
     <!-- Освещение -->
     <light pos="0 0 1.5" dir="0 0 -1" directional="true"/>
 
+     <camera
+    name="overview"
+    pos="0 -2 0.8"
+    xyaxes="1 0 0   0 0 1"
+/>
+
+
      <!-- Пол - плоскость размером 10x10 метров -->
     <geom name="floor" type="plane" size="1 1 0.05" pos="0 0 0" material="floor_mat" rgba="0.5 0.5 0.5 1"/>
    
@@ -88,7 +95,7 @@
 
                       <!-- Шар-имитатор нагрузки -->
                       <body name="payload" pos="0 0.01 0"> <!-- смещаем немного от центра ендэффектора -->
-                        <inertial mass="2" pos="0 0 0" diaginertia=" 0.00125 0.00125 0.00125"/>
+                        <inertial mass="3" pos="0 0 0" diaginertia=" 0.00125 0.00125 0.00125"/>
                         <geom type="sphere" size="0.05" rgba="0.8 0.2 0.2 1"/> <!-- красный шар -->
                       </body>
                     </body>

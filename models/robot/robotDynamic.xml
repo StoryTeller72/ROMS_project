@@ -33,7 +33,12 @@
 
      <!-- Пол - плоскость размером 10x10 метров -->
     <geom name="floor" type="plane" size="1 1 0.05" pos="0 0 0" material="floor_mat" rgba="0.5 0.5 0.5 1"/>
-   
+<camera
+    name="overview"
+    pos="0 -2 0.8"
+    xyaxes="1 0 0   0 0 1"
+/>
+
     <!-- База (закреплена) -->
     <body name="base">
       <geom type="mesh" mesh="base_mesh" name="base_geom"/>

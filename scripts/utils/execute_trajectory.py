@@ -47,7 +47,7 @@ def execute_trajectory(positions, q, dq, plot = True):
     # Оставляем Viewer открытым
     while True:
         for i in range(len(q)):
-            data.qpos[:] = q[i]
+            data.qpos[:] = q[i][:5]
             mj.mj_forward(model, data)
             viewer.sync()
         
@@ -58,8 +58,12 @@ if __name__ == '__main__':
     # control_dq = np.load('/home/rustam/ROMS/data/complicated_trajectory/circle_horizontal_dq.npy')
     # print(control_q.shape)
 
-    positions = np.load(f'/home/rustam/ROMS/data/linkall/pos/0.npy')
-    control_q = np.load(f'/home/rustam/ROMS/data/linkall/q/0.npy')
-    control_dq = np.load(f'/home/rustam/ROMS/data/linkall/dq/0.npy')
+    # positions = np.load(f'/home/rustam/ROMS/data/linkall/pos/0.npy')
+    # control_q = np.load(f'/home/rustam/ROMS/data/linkall/q/0.npy')
+    # control_dq = np.load(f'/home/rustam/ROMS/data/linkall/dq/0.npy')
+
+    positions = np.load(f'/home/rustam/ROMS/data/lissajous_3d_ee_posExample.npy')
+    control_q = np.load(f'/home/rustam/ROMS/data/lissajous_3d_qExample.npy')
+    control_dq = np.load(f'/home/rustam/ROMS/data/lissajous_3d_dqExample.npy')
     print(control_q.shape)
     execute_trajectory(positions, control_q, control_dq,False)

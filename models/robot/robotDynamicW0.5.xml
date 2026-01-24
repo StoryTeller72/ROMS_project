@@ -31,6 +31,12 @@
     <!-- Освещение -->
     <light pos="0 0 1.5" dir="0 0 -1" directional="true"/>
 
+    <camera
+    name="overview"
+    pos="0 -2 0.8"
+    xyaxes="1 0 0   0 0 1"
+/>
+
      <!-- Пол - плоскость размером 10x10 метров -->
     <geom name="floor" type="plane" size="1 1 0.05" pos="0 0 0" material="floor_mat" rgba="0.5 0.5 0.5 1"/>
    

@@ -4,6 +4,7 @@ import numpy as np
 from scipy.interpolate import CubicSpline
 import matplotlib.pyplot as plt
 from pathlib import Path
+from mpl_toolkits.mplot3d import Axes3D
 
 def get_lissajous_3d_trajectory(trajectory_name):
     # -------------------------------
@@ -102,9 +103,9 @@ def get_lissajous_3d_trajectory(trajectory_name):
     # -------------------------------
     # Сохраняем координаты эндэффектора
     ee_positions = np.array(ee_positions)
-    np.save(save_path + f'/lissajous_3d_ee_pos.npy', ee_positions)
-    np.save(save_path + f'/lissajous_3d_q.npy', q_traj)
-    np.save(save_path + f'/lissajous_3d_dq.npy', dq_traj)
+    np.save(save_path + f'/lissajous_3d_ee_posExample.npy', ee_positions)
+    np.save(save_path + f'/lissajous_3d_qExample.npy', q_traj)
+    np.save(save_path + f'/lissajous_3d_dqExample.npy', dq_traj)
     print(f"Координаты эндэффектора сохранены в {save_path}")
 
     # -------------------------------
@@ -128,6 +129,41 @@ def get_lissajous_3d_trajectory(trajectory_name):
     plt.ylabel("Position [m]")
     plt.grid(True)
     plt.legend()
+    plt.show()
+
+
+   
+
+    fig = plt.figure(figsize=(8, 6))
+    ax = fig.add_subplot(111, projection='3d')
+
+    # Вся траектория (сплайн) — зелёная линия
+    ax.plot(
+        ee_positions[:, 0],
+        ee_positions[:, 1],
+        ee_positions[:, 2],
+        color='green',
+        linewidth=2,
+        label='Spline trajectory'
+    )
+
+    # Опорные точки — красные маркеры
+    ax.scatter(
+        ee_traj[:, 0],
+        ee_traj[:, 1],
+        ee_traj[:, 2],
+        color='red',
+        s=60,
+        label='Waypoints'
+    )
+
+    ax.set_title("Lissajous trajectory of end-effector")
+    ax.set_xlabel("X [m]")
+    ax.set_ylabel("Y [m]")
+    ax.set_zlabel("Z [m]")
+    ax.legend()
+    ax.grid(True)
+
     plt.show()
 
 

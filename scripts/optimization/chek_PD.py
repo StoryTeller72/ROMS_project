@@ -7,8 +7,10 @@ import matplotlib.pyplot as plt
 # НАСТРОЙКИ
 # ================================
 # MODEL_PATH = "/home/rustam/ROMS/models/robot/robotDynamic.xml"
+# MODEL_PATH = "/home/rustam/ROMS/models/robot/robotDynamicW0.5.xml"
 # MODEL_PATH = "/home/rustam/ROMS/models/robot/robotDynamicW1.xml"
-MODEL_PATH = "/home/rustam/ROMS/models/robot/robotDynamicW1.5.xml"
+# MODEL_PATH = "/home/rustam/ROMS/models/robot/robotDynamicW1.5.xml"
+MODEL_PATH = "/home/rustam/ROMS/models/robot/robotDynamicW2.xml"
 
 # Sin
 Q_TRAJ_PATH = "/home/rustam/ROMS/data/linkall/q/0.npy"
@@ -16,16 +18,7 @@ DQ_TRAJ_PATH = "/home/rustam/ROMS/data/linkall/dq/0.npy"
 END_EFF_PATH = "/home/rustam/ROMS/data/linkall/pos/0.npy"
 
 
-# Horizontal circle
-# Q_TRAJ_PATH = "/home/rustam/ROMS/data/complicated_trajectory/circle_horizontal_q.npy"
-# DQ_TRAJ_PATH = "/home/rustam/ROMS/data/complicated_trajectory/circle_horizontal_dq.npy"
-# END_EFF_PATH = "/home/rustam/ROMS/data/complicated_trajectory/circle_horizontal_endeffector.npy"
 
-
-# Verical circle
-# Q_TRAJ_PATH = "/home/rustam/ROMS/data/complicated_trajectory/circle_q.npy"
-# DQ_TRAJ_PATH = "/home/rustam/ROMS/data/complicated_trajectory/circle_dq.npy"
-# END_EFF_PATH = "/home/rustam/ROMS/data/complicated_trajectory/circle_endeffector.npy"
 
 # Lisajy
 
@@ -36,15 +29,15 @@ END_EFF_PATH = "/home/rustam/ROMS/data/linkall/pos/0.npy"
 
 
 # DE basе no weight
-# Kp = [400, 342, 300, 200, 150]
-# Kd = [101, 15, 11, 5,  5]
+Kp = [400, 342, 300, 200, 150]
+Kd = [101, 15, 11, 5,  5]
 
 
 # # DE 0.5 kg
 # Kp = [354, 858, 564, 336, 256]
 # Kd = [92.6, 38.85, 7.48, 5, 5]
 
-# DE 1 kg
+# # DE 1 kg
 # Kp = [242, 957, 1300, 42, 490]
 # Kd = [168, 5.0, 5.0, 5.0, 5.0]
 
@@ -54,8 +47,8 @@ END_EFF_PATH = "/home/rustam/ROMS/data/linkall/pos/0.npy"
 
 # DE + GD on 1.5 kg
 
-Kp = [406.5, 901, 900.106, 300, 200.17]
-Kd = [51.7, 117, 10.58, 6.313, 5.0]
+# Kp = [406.5, 901, 900.106, 300, 200.17]
+# Kd = [51.7, 117, 10.58, 6.313, 5.0]
 
 # DE + GD on 1.5 kg 200 iter
 # Kp = [401, 899, 900, 300, 200]
@@ -112,6 +105,8 @@ ctrl_max = model.actuator_ctrlrange[:, 1]
 # VIEWER
 # ================================
 viewer = mj.viewer.launch_passive(model, data)
+viewer.cam.type = mj.mjtCamera.mjCAMERA_FIXED
+viewer.cam.fixedcamid = model.camera("overview").id
 
 # ================================
 # ЛОГИ
@@ -207,4 +202,5 @@ ax.legend()
 ax.grid(True)
 ax.view_init(elev=30, azim=45)
 plt.show()
+
 
