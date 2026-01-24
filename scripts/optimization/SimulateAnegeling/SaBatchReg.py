@@ -38,21 +38,26 @@ dim = 2 * len(joint_indices)
 # SA hyperparams
 T_init = 100.0
 T_min = 1.0
-alpha = 0.95          # коэффициент охлаждения
-iterations = 50
+alpha = 0.97          # коэффициент охлаждения
+iterations = 100
 
 # Параметры ограничения для каждого Kp/Kd
 bounds = [
-    (30, 400), (15, 120),   # joint 1
-    (20, 350), (10, 100),   # joint 2
-    (20, 300), (5, 100),    # joint 3
-    (10, 200), (3, 100),     # joint 4
-    (10, 200), (3, 100),     # joint 5
+    (10, 1000), (5, 300),   # joint 1
+    (10, 1000), (5, 250),   # joint 2
+    (10, 1000), (5, 200),   # joint 3
+    (10, 1000), (5, 120),    # joint 4
+    (10, 1000), (5, 120),    # joint 5
 ]
 
 # =============================
 # 4. LOSS
 # =============================
+# =============================
+# 4. LOSS с L2-регуляризацией
+# =============================
+reg_lambda = 1e-10  # коэффициент регуляризации
+
 def rollout_loss(params):
     total_loss = 0.0
     for b in range(N_batch):
@@ -84,7 +89,11 @@ def rollout_loss(params):
 
         total_loss += loss / steps
 
-    return total_loss / N_batch
+    loss_avg = total_loss / N_batch
+    # --- добавляем L2 регуляризацию по коэффициентам ---
+    reg_loss = reg_lambda * np.sum(np.square(params))
+    return loss_avg + reg_loss
+
 
 # =============================
 # 5. INITIALIZATION

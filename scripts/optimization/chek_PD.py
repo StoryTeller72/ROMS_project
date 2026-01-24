@@ -6,7 +6,9 @@ import matplotlib.pyplot as plt
 # ================================
 # НАСТРОЙКИ
 # ================================
-MODEL_PATH = "/home/rustam/ROMS/models/robot/robotDynamic.xml"
+# MODEL_PATH = "/home/rustam/ROMS/models/robot/robotDynamic.xml"
+# MODEL_PATH = "/home/rustam/ROMS/models/robot/robotDynamicW1.xml"
+MODEL_PATH = "/home/rustam/ROMS/models/robot/robotDynamicW1.5.xml"
 
 # Sin
 Q_TRAJ_PATH = "/home/rustam/ROMS/data/linkall/q/0.npy"
@@ -31,32 +33,50 @@ END_EFF_PATH = "/home/rustam/ROMS/data/linkall/pos/0.npy"
 # DQ_TRAJ_PATH = "/home/rustam/ROMS/data/lissajous_3d_dq.npy"
 # END_EFF_PATH = "/home/rustam/ROMS/data/lissajous_3d_ee_pos.npy"
 
-#  All joints in range 
-# bounds.append((10.0, 150.0))  # Kp
-#     bounds.append((10.0, 100.0))  # Kd
-# Kp = [121, 150, 150, 146.6, 150]
-# Kd = [10, 52, 16.5, 10.45,  10]
 
-# DE besst
+
+# DE basе no weight
 # Kp = [400, 342, 300, 200, 150]
 # Kd = [101, 15, 11, 5,  5]
+
+
+# # DE 0.5 kg
+# Kp = [354, 858, 564, 336, 256]
+# Kd = [92.6, 38.85, 7.48, 5, 5]
+
+# DE 1 kg
+# Kp = [242, 957, 1300, 42, 490]
+# Kd = [168, 5.0, 5.0, 5.0, 5.0]
+
+# DE 1.5 kg
+# Kp = [402, 897, 900, 300, 200]
+# Kd = [50, 143, 5, 5.0, 5.0]
+
+# DE + GD on 1.5 kg
+
+Kp = [406.5, 901, 900.106, 300, 200.17]
+Kd = [51.7, 117, 10.58, 6.313, 5.0]
+
+# DE + GD on 1.5 kg 200 iter
+# Kp = [401, 899, 900, 300, 200]
+# Kd = [50.26, 132.55, 7.46, 5.05, 5]
+
 
 
 # SGD
 # Kp = [80, 154, 188, 97.5, 153.16]
 # Kd = [37, 56, 24, 21,  64]
 
-# # SA
-# Kp = [50, 159, 147, 168, 130]
-# Kd = [17.47, 73.22, 40.80, 5.00, 43.23]
+# SA simple best
+# Kp = [251, 80, 189, 231, 56]
+# Kd = [80, 79, 9, 5, 6]
 
-# # SA best
-# Kp = [260, 213, 174.8, 65, 33]
-# Kd = [54.24, 87.77, 19.38, 22.43, 5]
+# Tuned  DE by GD
+# Kp = [400, 342, 300, 200, 150]
+# Kd = [101, 14.9, 10.9, 5, 4.9]
 
-# SA best
-Kp = [337, 260, 165, 32, 97]
-Kd = [72, 54, 47, 3, 32]
+
+
 
 # ================================
 # ЗАГРУЗКА
@@ -131,7 +151,6 @@ for t in range(T):
 
     # Обрезаем по ограничениям actuators
     tau = np.clip(tau, ctrl_min, ctrl_max)
-
     # Применяем
     data.ctrl[:] = tau
 
@@ -177,6 +196,9 @@ ax = fig.add_subplot(111, projection='3d')
 ax.plot(end_eff_pos[:, 0], end_eff_pos[:, 1], end_eff_pos[:, 2], linestyle='--', color='gray', label='Reference')
 ax.plot(ee_pos_log[:, 0], ee_pos_log[:, 1], ee_pos_log[:, 2], linestyle='-', color='blue', label='Actual')
 
+errors = np.linalg.norm(ee_pos_log - end_eff_pos, axis=1)
+print(np.sum(errors) * dt)
+
 ax.set_xlabel('X (m)')
 ax.set_ylabel('Y (m)')
 ax.set_zlabel('Z (m)')
@@ -185,3 +207,4 @@ ax.legend()
 ax.grid(True)
 ax.view_init(elev=30, azim=45)
 plt.show()
+

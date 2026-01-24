@@ -32,8 +32,8 @@ def generate_traj(need_joint,use_random_start_pos, amnt_traj):
     save_path = str(SAVE_PATH)
     xml_path = str(MODEL_PATH)
     num_joints = 5
-    # T = 10.0
-    T = 5.0
+    T = 10.0
+    # T = 5.0
     dt = 0.002
     steps = int(T / dt)
 
@@ -81,4 +81,4 @@ def generate_traj(need_joint,use_random_start_pos, amnt_traj):
 
 
 if __name__ == '__main__':
-   generate_traj('all', True,10)
+   generate_traj('all', True,5)
